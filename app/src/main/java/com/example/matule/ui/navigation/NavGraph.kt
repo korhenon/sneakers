@@ -5,11 +5,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.matule.ui.MainViewModel
+import com.example.matule.ui.screens.home.HomeScreen
 import com.example.matule.ui.screens.onboard.OnboardScreen
 import com.example.matule.ui.screens.splash.SplashScreen
 
 @Composable
-fun NavGraph(modifier: Modifier = Modifier) {
+fun NavGraph(viewModel: MainViewModel, modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
     NavHost(
@@ -24,7 +26,7 @@ fun NavGraph(modifier: Modifier = Modifier) {
             OnboardScreen(navController)
         }
         composable<Destinations.Home> {
-
+            HomeScreen(navController, viewModel)
         }
     }
 }

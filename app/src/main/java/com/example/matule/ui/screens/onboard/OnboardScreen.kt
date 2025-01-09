@@ -32,6 +32,7 @@ import com.example.matule.ui.widget.MaxWidthButton
 @Composable
 fun OnboardScreen(navController: NavHostController) {
     var page by remember { mutableIntStateOf(1) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()

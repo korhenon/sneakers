@@ -2,7 +2,6 @@ package com.example.matule.ui.widget
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -21,13 +20,14 @@ fun MaxWidthButton(
     text: String,
     onClick: () -> Unit,
     containerColor: Color = colorScheme.primary,
-    contentColor: Color = colorScheme.onPrimary
+    contentColor: Color = colorScheme.onPrimary,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
         contentPadding = PaddingValues(vertical = 16.dp),
         colors = ButtonDefaults.buttonColors(containerColor, contentColor),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp)
     ) {
         Text(text = text, fontFamily = raleway, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)

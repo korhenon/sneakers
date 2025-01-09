@@ -39,11 +39,20 @@ val raleway = FontFamily(
         variationSettings = FontVariation.Settings(
             FontVariation.weight(FontWeight.SemiBold.weight)
         )
+    ),
+    Font(
+        R.font.raleway,
+        FontWeight.Medium,
+        variationSettings = FontVariation.Settings(
+            FontVariation.weight(FontWeight.Medium.weight)
+        )
     )
 )
 
 val poppins = FontFamily(
-    Font(R.font.poppins_regular, FontWeight.Normal)
+    Font(R.font.poppins_regular, FontWeight.Normal),
+    Font(R.font.poppins_medium, FontWeight.Medium),
+    Font(R.font.poppins_light, FontWeight.Light)
 )
 
 // Set of Material typography styles to start with

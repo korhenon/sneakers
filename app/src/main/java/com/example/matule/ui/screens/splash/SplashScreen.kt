@@ -3,7 +3,9 @@ package com.example.matule.ui.screens.splash
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,38 +41,40 @@ fun SplashScreen(navController: NavHostController) {
             }
         }
     }
-
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    listOf(
-                        colorScheme.primary,
-                        colorScheme.inversePrimary
+    Scaffold { padding ->
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            colorScheme.primary,
+                            colorScheme.inversePrimary
+                        )
                     )
-                )
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = buildAnnotatedString {
-                append("MATULE ")
-                withStyle(
-                    SpanStyle(
-                        baselineShift = BaselineShift.Superscript,
-                        fontWeight = FontWeight.Light,
-                        fontSize = 20.sp
-                    )
-                ) {
-                    append("ME")
-                }
-            },
-            fontSize = 42.sp,
-            fontWeight = FontWeight.Bold,
-            color = colorScheme.onPrimary,
-            fontFamily = raleway
-        )
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    append("MATULE ")
+                    withStyle(
+                        SpanStyle(
+                            baselineShift = BaselineShift.Superscript,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 20.sp
+                        )
+                    ) {
+                        append("ME")
+                    }
+                },
+                fontSize = 42.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorScheme.onPrimary,
+                fontFamily = raleway
+            )
+        }
     }
 }
 
