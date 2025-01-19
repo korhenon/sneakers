@@ -7,7 +7,11 @@ class AuthorizationRepository @Inject constructor(
     private val service: AuthorizationService
 ) {
     suspend fun signIn(email: String, password: String): Boolean {
-        service.signIn(email, password)
-        return service.checkLoggedIn()
+        try {
+            service.signIn(email, password)
+            return service.checkLoggedIn()
+        } catch (e: Exception) {
+            return false
+        }
     }
 }

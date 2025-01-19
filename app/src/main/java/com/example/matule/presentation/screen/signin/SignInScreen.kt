@@ -6,13 +6,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.matule.presentation.theme.MatuleTheme
+import com.example.matule.presentation.theme.Shadow
 import com.example.matule.presentation.theme.poppins
 import com.example.matule.presentation.theme.raleway
 import com.example.matule.presentation.widget.MaxWidthButton
@@ -43,7 +45,8 @@ import com.example.matule.presentation.widget.Modal
 fun SignInScreen(navController: NavController, viewModel: SignInViewModel = hiltViewModel()) {
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
-    val signInResult by viewModel.signInResult.collectAsState()
+    val signInErrorModals by viewModel.signInErrorModals.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     Scaffold(containerColor = colorScheme.surface) { innerPadding ->
         Column(
@@ -153,26 +156,33 @@ fun SignInScreen(navController: NavController, viewModel: SignInViewModel = hilt
             )
         }
     }
-    if (!signInResult.isEmailValid) {
+    if (signInErrorModals.showNotEmailValid) {
         Modal(
             text = "Почта не соответсвует формату",
-            onCloseRequest = viewModel::clearSignInResult,
+            onCloseRequest = viewModel::closeNotEmailValid,
             modifier = Modifier.testTag("not_valid_email_modal")
         )
     }
-    if (!signInResult.isPasswordValid) {
+    if (signInErrorModals.showNotPasswordValid) {
         Modal(
             text = "Пароль не соответсвует формату",
-            onCloseRequest = viewModel::clearSignInResult,
+            onCloseRequest = viewModel::closeNotPasswordValid,
             modifier = Modifier.testTag("not_valid_password_modal")
         )
     }
-    if (!signInResult.isAuthenticationSuccess) {
+    if (signInErrorModals.showAuthenticationFail) {
         Modal(
             text = "Не успешная авторизация",
-            onCloseRequest = viewModel::clearSignInResult,
+            onCloseRequest = viewModel::closeAuthenticationFail,
             modifier = Modifier.testTag("authorization_failed")
         )
+    }
+    if (isLoading) {
+        Box(Modifier
+            .fillMaxSize()
+            .background(Shadow), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
     }
 }
 

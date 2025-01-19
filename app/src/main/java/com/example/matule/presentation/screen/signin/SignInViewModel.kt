@@ -18,16 +18,13 @@ class SignInViewModel @Inject constructor(
 ) : ViewModel() {
     private val _email = MutableStateFlow("")
     private val _password = MutableStateFlow("")
-    private val _signResult = MutableStateFlow(
-        SignInResult(
-            isEmailValid = true,
-            isPasswordValid = true,
-            isAuthenticationSuccess = true
-        )
-    )
+    private val _signInErrorModals = MutableStateFlow(SignInErrorModals())
+    private val _isLoading = MutableStateFlow(false)
+
     val email get() = _email
     val password get() = _password
-    val signInResult get() = _signResult
+    val signInErrorModals get() = _signInErrorModals
+    val isLoading get() = _isLoading
 
     fun onEmailChange(value: String) {
         _email.value = value
@@ -37,12 +34,16 @@ class SignInViewModel @Inject constructor(
         _password.value = value
     }
 
-    fun clearSignInResult() {
-        _signResult.value = SignInResult(
-            isEmailValid = true,
-            isPasswordValid = true,
-            isAuthenticationSuccess = true
-        )
+    fun closeNotEmailValid() {
+        _signInErrorModals.value = _signInErrorModals.value.copy(showNotEmailValid = false)
+    }
+
+    fun closeNotPasswordValid() {
+        _signInErrorModals.value = _signInErrorModals.value.copy(showNotPasswordValid = false)
+    }
+
+    fun closeAuthenticationFail() {
+        _signInErrorModals.value = _signInErrorModals.value.copy(showAuthenticationFail = false)
     }
 
     fun signIn(navController: NavController) {
@@ -50,17 +51,20 @@ class SignInViewModel @Inject constructor(
         val isPasswordValid = _password.value.isPasswordValid()
         if (isEmailValid && isPasswordValid) {
             viewModelScope.launch {
-                _signResult.value = SignInResult(
-                    isEmailValid = true, isPasswordValid = true,
-                    repository.signIn(_email.value, _password.value)
+                _isLoading.value = true
+                val result = repository.signIn(_email.value, _password.value)
+                _isLoading.value = false
+                _signInErrorModals.value = SignInErrorModals(
+                    showNotEmailValid = false, showNotPasswordValid = false,
+                    showAuthenticationFail = !result
                 )
-                if (_signResult.value.isAuthenticationSuccess) {
+                if (result) {
                     navController.navigate(Destinations.Home)
                 }
             }
         } else {
-            _signResult.value = SignInResult(
-                isEmailValid, isPasswordValid
+            _signInErrorModals.value = SignInErrorModals(
+                !isEmailValid, !isPasswordValid, showAuthenticationFail = true
             )
         }
     }

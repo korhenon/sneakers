@@ -2,9 +2,11 @@ package com.example.matule.common
 
 
 fun String.isValidEmail(): Boolean {
-    return this == "mail@mail.com"
+    val regex = """^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}${'$'}""".toRegex()
+    return regex.matches(this)
 }
 
 fun String.isPasswordValid(): Boolean {
-    return this == "Qw123%rty"
+    val regex = """^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@${'$'}%^&*-]).{8,}${'$'}""".toRegex()
+    return regex.matches(this)
 }
