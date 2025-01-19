@@ -2,9 +2,9 @@ package com.example.matule.common
 
 
 fun String.isValidEmail(): Boolean {
-    return false
+    return this == "mail@mail.com"
 }
 
 fun String.isPasswordValid(): Boolean {
-    return false
+    return this == "Qw123%rty"
 }

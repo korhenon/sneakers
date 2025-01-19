@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ import com.example.matule.presentation.theme.MatuleTheme
 import com.example.matule.presentation.theme.poppins
 import com.example.matule.presentation.theme.raleway
 import com.example.matule.presentation.widget.MaxWidthButton
+import com.example.matule.presentation.widget.Modal
 
 @Composable
 fun SignInScreen(navController: NavController, viewModel: SignInViewModel = hiltViewModel()) {
@@ -150,6 +152,27 @@ fun SignInScreen(navController: NavController, viewModel: SignInViewModel = hilt
                 modifier = Modifier.testTag("sign_in")
             )
         }
+    }
+    if (!signInResult.isEmailValid) {
+        Modal(
+            text = "Почта не соответсвует формату",
+            onCloseRequest = viewModel::clearSignInResult,
+            modifier = Modifier.testTag("not_valid_email_modal")
+        )
+    }
+    if (!signInResult.isPasswordValid) {
+        Modal(
+            text = "Пароль не соответсвует формату",
+            onCloseRequest = viewModel::clearSignInResult,
+            modifier = Modifier.testTag("not_valid_password_modal")
+        )
+    }
+    if (!signInResult.isAuthenticationSuccess) {
+        Modal(
+            text = "Не успешная авторизация",
+            onCloseRequest = viewModel::clearSignInResult,
+            modifier = Modifier.testTag("authorization_failed")
+        )
     }
 }
 
