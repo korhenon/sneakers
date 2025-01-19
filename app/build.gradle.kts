@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -17,7 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.matule.CustomTestRunner"
     }
 
     buildTypes {
@@ -60,6 +61,15 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation("androidx.navigation:navigation-compose:2.8.3")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.51.1")
+    // Hilt
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
+
+    androidTestImplementation ("com.google.dagger:hilt-android-testing:2.51.1")
+    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.7.6")
+    kaptAndroidTest ("com.google.dagger:hilt-android-compiler:2.51.1")
 }
 
 kapt {
