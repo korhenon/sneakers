@@ -1,6 +1,7 @@
 package com.example.matule.presentation.screen.signin
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,18 +24,28 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.matule.R
 import com.example.matule.presentation.theme.MatuleTheme
 import com.example.matule.presentation.theme.Shadow
 import com.example.matule.presentation.theme.poppins
@@ -47,8 +59,26 @@ fun SignInScreen(navController: NavController, viewModel: SignInViewModel = hilt
     val password by viewModel.password.collectAsState()
     val signInErrorModals by viewModel.signInErrorModals.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    var isPasswordShowing by rememberSaveable { mutableStateOf(false) }
 
-    Scaffold(containerColor = colorScheme.surface) { innerPadding ->
+    Scaffold(containerColor = colorScheme.surface, bottomBar = {
+        Text(
+            text = buildAnnotatedString {
+                append("Вы впервые? ")
+                withStyle(SpanStyle(color = colorScheme.onBackground)) {
+                    append("Создать пользователя")
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 47.dp),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium,
+            fontFamily = raleway,
+            fontSize = 16.sp,
+            color = colorScheme.onSurfaceVariant
+        )
+    }) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -137,7 +167,18 @@ fun SignInScreen(navController: NavController, viewModel: SignInViewModel = hilt
                     focusedContainerColor = colorScheme.background,
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent
-                )
+                ),
+                trailingIcon = {
+                    Icon(
+                        painter = painterResource(R.drawable.eye),
+                        contentDescription = "",
+                        tint = colorScheme.onSurfaceVariant,
+                        modifier = Modifier.clickable {
+                            isPasswordShowing = !isPasswordShowing
+                        }
+                    )
+                },
+                visualTransformation = if (isPasswordShowing) VisualTransformation.None else PasswordVisualTransformation()
             )
             Spacer(Modifier.height(12.dp))
             Text(
@@ -178,9 +219,11 @@ fun SignInScreen(navController: NavController, viewModel: SignInViewModel = hilt
         )
     }
     if (isLoading) {
-        Box(Modifier
-            .fillMaxSize()
-            .background(Shadow), contentAlignment = Alignment.Center) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Shadow), contentAlignment = Alignment.Center
+        ) {
             CircularProgressIndicator()
         }
     }
