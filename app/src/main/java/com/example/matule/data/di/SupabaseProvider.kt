@@ -9,6 +9,7 @@ import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.postgrest
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,5 +28,10 @@ class SupabaseProvider {
     @Provides
     fun provideAuth(client: SupabaseClient): Auth {
         return client.auth
+    }
+
+    @Provides
+    fun providePostgrest(client: SupabaseClient): Postgrest {
+        return client.postgrest
     }
 }

@@ -12,7 +12,9 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Text,
     onSurfaceVariant = Hint,
     outline = SubTextDark,
-    primary = Accent
+    primary = Accent,
+    inversePrimary = AccentDark,
+    onPrimaryContainer = Disabled
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),

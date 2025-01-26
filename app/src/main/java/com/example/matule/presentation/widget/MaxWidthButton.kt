@@ -9,20 +9,27 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.matule.presentation.theme.raleway
 
 @Composable
-fun MaxWidthButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun MaxWidthButton(
+    text: String,
+    onClick: () -> Unit,
+    contentColor: Color = colorScheme.onPrimary,
+    containerColor: Color = colorScheme.primary,
+    modifier: Modifier = Modifier
+) {
     Button(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
         colors = ButtonDefaults.buttonColors(
-            contentColor = colorScheme.onPrimary,
-            containerColor = colorScheme.primary
+            contentColor = contentColor,
+            containerColor = containerColor
         ),
         contentPadding = PaddingValues(vertical = 14.dp)
     ) {
